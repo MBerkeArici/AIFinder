@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Zor Ingilizce AI ornekleri (uretici: Claude).
+"""Zor Ingilizce AI ornekleri (bir buyuk dil modeli tarafindan uretildi).
 
 NEDEN: RAID'in AI metinleri siniflandirici icin fazla kolay — 81 ornegin
 hicbiri p(AI)<0.8 almiyor, medyan 1.000. Esik bu dagilima gore kalibre
@@ -116,7 +116,7 @@ I have his email. I have not written. I probably will not, and I notice that the
 
 def rows():
     return [{"text": " ".join(t.split()), "label": 1, "lang": "en",
-             "source": "claude-hard/" + kind, "attack": "none"} for kind, t in SAMPLES]
+             "source": "uretilmis-zor/" + kind, "attack": "none"} for kind, t in SAMPLES]
 
 
 if __name__ == "__main__":

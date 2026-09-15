@@ -133,4 +133,4 @@ Alanın korunmasına yönelik tedbirlerin alındığı, kazı sezonu dışında 
 
 def rows():
     return [{"text": " ".join(t.split()), "label": 1, "lang": "tr",
-             "source": "claude-long/" + kind, "attack": "none"} for kind, t in SAMPLES]
+             "source": "uretilmis-uzun/" + kind, "attack": "none"} for kind, t in SAMPLES]

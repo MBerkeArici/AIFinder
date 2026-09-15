@@ -126,7 +126,7 @@ Every piece was there. I felt relief rather than satisfaction, took a photograph
 
 def rows():
     return [{"text": " ".join(t.split()), "label": 1, "lang": "en",
-             "source": "claude-hard/gizlenmis", "attack": "none"} for t in SAMPLES]
+             "source": "uretilmis-zor/gizlenmis", "attack": "none"} for t in SAMPLES]
 
 
 if __name__ == "__main__":

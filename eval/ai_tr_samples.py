@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Turkce AI metin ornekleri (uretici: Claude).
+"""Turkce AI metin ornekleri (bir buyuk dil modeli tarafindan uretildi).
 
 SINIRLILIK — rapora da yazilir: bu ornekler tek bir model ailesinden geliyor.
 ChatGPT ve Gemini'nin Turkce uslubu birebir temsil edilmiyor olabilir. Ancak
@@ -123,7 +123,7 @@ def all_samples():
                         ("haber", NEWS)):
         for t in group:
             out.append({"text": " ".join(t.split()), "label": 1, "lang": "tr",
-                        "source": "claude/" + name, "attack": "none"})
+                        "source": "uretilmis/" + name, "attack": "none"})
     return out
 
 

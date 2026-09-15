@@ -7,7 +7,7 @@ Iki dil modeli kullanilir:
 
 Skor = log-perplexity / cross-perplexity.
 DUSUK skor -> makine uretimi. Hicbir egitim gerektirmez; bu yuzden daha
-once gorulmemis modellerin (yeni GPT/Claude surumleri) ciktisina da
+once gorulmemis modellerin (yeni model surumleri) ciktisina da
 genellesir — sinifladiricilarin en zayif oldugu nokta tam olarak budur.
 """
 import os
