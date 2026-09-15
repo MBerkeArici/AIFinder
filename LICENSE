@@ -1,0 +1,37 @@
+MIT License
+
+Copyright (c) 2026 Berke Arıcı
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+ÜÇÜNCÜ TARAF MODELLER
+
+Bu proje aşağıdaki modelleri kullanır; kendi lisansları geçerlidir:
+  - desklib/ai-text-detector-v1.01  (MIT)
+  - Qwen/Qwen2.5-1.5B               (Apache-2.0)
+  - Qwen/Qwen2.5-1.5B-Instruct      (Apache-2.0)
+  - dbmdz/bert-base-turkish-cased   (MIT)
+
+ÖLÇÜM VERİSİ
+
+Ölçüm setleri üçüncü taraf kaynaklardan derlenir ve bu depoya dahil
+edilmez; eval/build_*.py betikleriyle yeniden üretilir. Kaynakların
+kendi kullanım koşulları geçerlidir.

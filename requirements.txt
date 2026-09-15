@@ -1,0 +1,10 @@
+flask
+pdfminer.six
+python-docx
+torch
+transformers
+sentencepiece
+protobuf
+scikit-learn
+numpy<3
+datasets        # yalnizca eval/ icin gerekli

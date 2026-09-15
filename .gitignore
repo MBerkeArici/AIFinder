@@ -1,0 +1,46 @@
+# --- sanal ortam (1.3 GB)
+.venv/
+venv/
+env/
+
+# --- Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- Veri dosyalari
+# Bunlar depoya KONMAZ, cunku:
+#  1) ucuncu taraf kaynaklardan gelir (RAID, Reddit, ttc4900) ve yeniden
+#     dagitilmalari lisans acisindan risklidir
+#  2) eval/build_*.py betikleriyle yeniden uretilebilir
+#  3) bir kismi buyuktur (pool_en.jsonl ~7 MB)
+#
+# Elle yazilan ornekler kaynak kod olarak eval/ai_*_*.py icinde durur
+# ve depoya dahildir.
+data/*.jsonl
+data/*.full
+data/*.npy
+data/*.npz
+
+# --- ara/onbellek dosyalari
+data/_stage_*
+data/features_cache.jsonl
+data/pool_scores.npy
+
+# --- model onbellegi (Hugging Face, ~5 GB, ilk calistirmada iner)
+.cache/
+*.safetensors
+*.bin
+
+# --- isletim sistemi
+.DS_Store
+Thumbs.db
+
+# --- gecici
+*.log
+/tmp/
+docs/screenshot-*.png.tmp
+
+# --- tasarim araci ara dosyalari
+.impeccable/
