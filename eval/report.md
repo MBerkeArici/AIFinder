@@ -16,10 +16,10 @@ doğruluk rakamlarının tek kaynağı budur.
 | binoculars | 0.812 | 0.0% |
 | siniflandirici | 0.823 | 18.6% |
 | stilometri | 0.861 | 4.7% |
-| gizlenmis | 0.904 | 48.8% |
-| **birleşik (ensemble)** | **0.971** | **25.6%** |
+| gizlenmis | 0.999 | 95.3% |
+| **birleşik (ensemble)** | **0.999** | **97.7%** |
 
-Öğrenilen ağırlıklar: `{'binoculars': 0.83, 'siniflandirici': 0.277, 'stilometri': 1.801, 'gizlenmis': 1.982}`  ·  eşik: `0.9791`
+Öğrenilen ağırlıklar: `{'binoculars': 0.773, 'siniflandirici': 0.363, 'stilometri': 1.148, 'gizlenmis': 2.92}`  ·  eşik: `0.6967`
 
 
 ### İnsan metinlerinde yanlış pozitif (kaynak bazında)

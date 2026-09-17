@@ -384,7 +384,9 @@ Yani suçluluk hissetmek ile yanlış yapmış olmak aynı şey değil galiba. H
 
 Yerine ne açılacak bilmiyorum. Muhtemelen kafe. Bu sokakta dört kafe var zaten.
 
-Necati amcayı görürsem ne derim bilmiyorum. Belki hiçbir şey demem, selam veririm sadece."""),
+Necati amcayı görürsem ne derim bilmiyorum. Belki hiçbir şey demem, selam veririm sadece.
+
+Bu arada sokağın karşısındaki manav da satılık levhası asmış. Onu geçen hafta fark ettim."""),
 
 ("rapor", """Pilot uygulamanın ilk ayına dair gözlemlerimi paylaşıyorum. Sayısal sonuçlar ekte, burada daha çok izlenimlerim var.
 
@@ -426,7 +428,9 @@ En sevdiğim iş girişteki küçük eskizdi aslında. Muhtemelen en önemsiz pa
 
 Bilet fiyatı yüksek bence. Öğrenci indirimi var, o makul.
 
-Giderseniz ikinci salonu önce gezin derim. Yorulmadan bakmak gerekiyor oraya, çünkü zaten zor bakılıyor."""),
+Giderseniz ikinci salonu önce gezin derim. Yorulmadan bakmak gerekiyor oraya, çünkü zaten zor bakılıyor.
+
+Kataloğu almadım bu arada, pahalıydı. Sonra internetten birkaç görsel buldum, aynı şey değil tabii."""),
 
 ("tavsiye", """Ev taşıyacaklara birkaç şey söyleyeyim, üç kez taşındım son beş yılda, bazı dersler aldım.
 
@@ -470,7 +474,9 @@ Ben kitabı açtım ama okuyamadım. Onun anlattıklarını düşündüm yol boy
 
 Sonra fark ettim: adını sormadım. Kırk dakika konuştuk, ben hiçbir şey sormadım. Sadece dinledim ve bu kolayıma geldi.
 
-Bunu düşününce biraz kötü hissettim. Ama belki de o istediği buydu, bilmiyorum. Bazı insanlar sorulmasını değil dinlenmesini istiyor."""),
+Bunu düşününce biraz kötü hissettim. Ama belki de o istediği buydu, bilmiyorum. Bazı insanlar sorulmasını değil dinlenmesini istiyor.
+
+Kitabı o akşam bitirdim. Fena değildi ama o konuşma kadar aklımda kalmadı."""),
 
 ("aciklama", """Faiz ve enflasyon arasındaki ilişkiyi soranlar oluyor, basitçe anlatmaya çalışayım.
 
@@ -502,7 +508,9 @@ Cevabım hâlâ net değil. Kiralamak mümkün, hesap olarak ucuz. Ama kiralamak
 
 Şu an ilanı verdim. Arayan olmadı henüz. İçten içe aranmamasını istiyor muyum bilmiyorum.
 
-Belki de bazı kararlar mantıkla alınmıyor. Alınıyor gibi yapıp erteliyoruz, sonra bir şey oluyor ve karar kendiliğinden gerçekleşiyor."""),
+Belki de bazı kararlar mantıkla alınmıyor. Alınıyor gibi yapıp erteliyoruz, sonra bir şey oluyor ve karar kendiliğinden gerçekleşiyor.
+
+Bu arada sigortanın yenilenmesine iki ay var. O tarihe kadar satamazsam bir yıl daha ödemiş olacağım."""),
 
 ("ders", """Ders anlatırken en zor kısım ne biliyor musunuz? Bildiğiniz şeyi unutmak.
 
@@ -518,7 +526,9 @@ Bir de şu: "anladınız mı" diye sormak işe yaramıyor. Herkes evet diyor. Bu
 
 Yıllar sürdü bunları bulmam. Kimse öğretmedi. Belki öğretiliyor bir yerde, ben denk gelmedim.
 
-Şimdi düşünüyorum, öğretmen yetiştirme programlarında bu anlatılıyor mudur acaba."""),
+Şimdi düşünüyorum, öğretmen yetiştirme programlarında bu anlatılıyor mudur acaba.
+
+Bir de sınıf mevcudu meselesi var. On kişilik grupta bunların hepsi işliyor, kırk kişide hiçbiri işlemiyor."""),
 
 ("kayip", """Eski telefonun yedeği bozuktu ve iki yıllık fotoğraf gitti.
 
@@ -534,7 +544,9 @@ Fotoğrafların çoğuna zaten bakmıyordum. Çekiyorum, yükleniyor, bir daha a
 
 Yine de canım sıkkın. Birkaç tanesi vardı gerçekten önemli.
 
-Şimdi iki ayrı yere yedekliyorum. Bir de ara sıra eski fotoğraflara bakıyorum. En azından bakayım, madem saklıyorum."""),
+Şimdi iki ayrı yere yedekliyorum. Bir de ara sıra eski fotoğraflara bakıyorum. En azından bakayım, madem saklıyorum.
+
+Bir arkadaşım bulut yedeklemesini önerdi ama aylık ücret var. Şimdilik harici diske kopyalıyorum, o da unutuluyor bazen."""),
 
 ("gozlem2", """Markette kasa sırası seçme konusunda insanların tuhaf bir davranışı var.
 
@@ -550,7 +562,9 @@ Sonuç olarak optimize etmeye çalışmak çoğu zaman boşa emek. İki dakika k
 
 Yine de yapıyorum. Neden yaptığımı düşündüm. Sanırım kontrol hissi veriyor. Sırada beklemek edilgen bir şey, seçim yapmak onu biraz etken kılıyor.
 
-Yani mesele iki dakika değil. Mesele kendini çaresiz hissetmemek. Bunu anlayınca kendime biraz güldüm."""),
+Yani mesele iki dakika değil. Mesele kendini çaresiz hissetmemek. Bunu anlayınca kendime biraz güldüm.
+
+Self servis kasalar ayrı bir konu. Onlarda sıra kısa oluyor ama bir şey ters giderse görevli beklemek gerekiyor."""),
 
 ("proje", """Projeyi iptal ettik ve bunu doğru karar olarak görüyorum, gerekçelerimi yazayım.
 
@@ -588,7 +602,9 @@ Bunu satın alırken kimse söylemiyor tabii. Broşürde su tasarrufu yazıyor, 
 
 Su konusunda da yanılmışım bu arada. Elde yıkarken musluğu açık bırakıyormuşum, makine daha az harcıyor. Ölçtüm.
 
-Yer meselesi hâlâ geçerli ama. Mutfak küçüldü, bu doğru."""),
+Yer meselesi hâlâ geçerli ama. Mutfak küçüldü, bu doğru.
+
+Deterjan meselesine de girmedim. Tablet mi toz mu tartışması var, ikisini de denedim, belirgin fark göremedim."""),
 
 ("vazgectim", """Blog yazmayı bıraktım. Dört yıl yazdım, son altı aydır yazmıyorum ve artık resmen bitti diyebilirim.
 
@@ -604,7 +620,139 @@ Bu utanç verici değil sanırım. Herkesin söyleyeceği belli sayıda şey var
 
 Bir gün tekrar başlar mıyım bilmiyorum. Yeni bir şey öğrenirsem belki.
 
-Siteyi kapatmadım. Orada dursun, kimseye zararı yok."""),
+Siteyi kapatmadım. Orada dursun, kimseye zararı yok.
+
+Alan adının süresi gelecek yıl doluyor. Uzatır mıyım bilmiyorum, muhtemelen uzatırım, ucuz bir şey sonuçta."""),
+
+("haber-ai", """Kentteki toplu taşıma ağının genişletilmesine yönelik çalışmaların bu yıl içinde başlayacağı bildirildi. Yetkililer, projenin özellikle yeni yerleşim bölgelerine hizmet vereceğini belirtti.
+
+Yapılan açıklamada, mevcut hatların kapasitesinin nüfus artışını karşılamakta yetersiz kaldığı ifade edildi. Yoğun saatlerde yaşanan sıkışıklığın azaltılması için sefer sıklığının da artırılacağı kaydedildi.
+
+Projenin çevresel etki değerlendirme sürecinin tamamlandığı, olumsuz bir bulguya rastlanmadığı açıklandı. Güzergâh belirlenirken yeşil alanların korunmasına özen gösterildiği vurgulandı.
+
+Finansman modeline ilişkin çalışmaların sürdüğü belirtildi. Uluslararası kaynaklardan destek sağlanması seçeneğinin değerlendirildiği aktarıldı.
+
+Bölge sakinleri, çalışmaların bir an önce tamamlanmasını beklediklerini dile getirdi. Yetkililer ise takvime uyulacağı konusunda güvence verdi. Tamamlandığında günlük yüz binlerce yolcuya hizmet verilmesi bekleniyor.
+
+Ulaşım uzmanları, hat genişletmesinin tek başına yeterli olmayacağını değerlendirmektedir. Aktarma noktalarının yeniden düzenlenmesi ve bilet sisteminin bütünleştirilmesi de gündemdedir. Yetkililer bu konudaki çalışmaların ayrı bir program kapsamında yürütüldüğünü bildirdi. Güzergâh üzerindeki esnaf için geçiş dönemine yönelik önlemlerin değerlendirildiği kaydedildi."""),
+
+("haber-ai", """Tarım sektöründe dijital teknolojilerin kullanımına yönelik destek programının başvuru süreci başladı. Program kapsamında üreticilere hem eğitim hem finansal destek sağlanacağı bildirildi.
+
+Yetkililer, akıllı sulama sistemleri ve toprak analizi teknolojilerinin verimliliği artırdığını belirtti. Pilot uygulamalarda su tüketiminde kayda değer azalma gözlendiği ifade edildi.
+
+Başvuru kriterleri arasında işletme büyüklüğü ve üretim çeşidinin yer aldığı kaydedildi. Küçük ölçekli üreticilere öncelik tanınacağı açıklandı.
+
+Programın ilk aşamasında belirli bölgelerde uygulanacağı, sonuçlara göre kapsamın genişletileceği bildirildi. Değerlendirme sürecinin şeffaf biçimde yürütüleceği vurgulandı.
+
+Sektör temsilcileri düzenlemeyi olumlu karşıladıklarını belirtti. Ancak teknik destek hizmetlerinin süreklilik göstermesi gerektiğine dikkat çekildi. Başvuruların önümüzdeki ay sonuna kadar kabul edileceği duyuruldu.
+
+Uygulamanın izlenmesi için ayrı bir birim oluşturulduğu açıklandı. Destek alan işletmelerin verimlilik göstergeleri düzenli olarak kayıt altına alınacak, elde edilen veriler program tasarımının güncellenmesinde kullanılacaktır. Yetkililer, sonuçların kamuoyuyla paylaşılacağını belirtti. Başvuru koşullarına ilişkin ayrıntılı bilgiye resmî internet sitesinden ulaşılabileceği duyuruldu.
+
+Sektör temsilcileri, uygulamanın yaygınlaştırılması hâlinde üretim maliyetlerinde kalıcı düşüş sağlanabileceğini değerlendirmektedir."""),
+
+("haber-ai", """Sağlık alanında yürütülen aşılama kampanyasının hedeflenen orana ulaştığı açıklandı. Yetkililer, çalışmaların planlanan takvime uygun şekilde tamamlandığını bildirdi.
+
+Kampanya kapsamında özellikle risk grubundaki bireylere öncelik verildiği belirtildi. Mobil sağlık ekipleri aracılığıyla kırsal bölgelere erişim sağlandığı kaydedildi.
+
+Bilgilendirme faaliyetlerinin katılım oranını artırmada etkili olduğu değerlendirildi. Yerel yöneticiler ve muhtarların sürece desteğinin belirleyici olduğu ifade edildi.
+
+Soğuk zincir koşullarının her aşamada korunduğu, denetimlerin düzenli olarak yapıldığı açıklandı. Herhangi bir aksaklık yaşanmadığı bildirildi.
+
+Önümüzdeki dönemde izleme çalışmalarının sürdürüleceği duyuruldu. Vatandaşlara düzenli sağlık kontrollerini ihmal etmemeleri çağrısında bulunuldu.
+
+Kampanya süresince yürütülen iletişim çalışmalarının ayrıca değerlendirileceği bildirildi. Yanlış bilgilendirmeyle mücadele kapsamında sağlık çalışanlarına yönelik rehber materyal hazırlandığı ifade edildi. Yetkililer, toplumsal bağışıklık düzeyinin korunması için düzenli tekrar dozlarının önemine dikkat çekti. İzleme verilerinin önümüzdeki dönemde raporlanacağı açıklandı.
+
+Yetkililer ayrıca, bölgesel farklılıkların giderilmesine yönelik ek planlamaların gündemde olduğunu, saha ekiplerinin görevlendirmesinin bu doğrultuda yeniden düzenleneceğini bildirdi."""),
+
+("kurumsal-ai", """Enerji verimliliği politikamız kapsamında yürüttüğümüz çalışmaların sonuçlarını paydaşlarımızla paylaşmaktan memnuniyet duyarız. Bu alandaki taahhütlerimiz kararlılıkla sürdürülmektedir.
+
+Tesislerimizde gerçekleştirilen iyileştirmeler sonucunda birim üretim başına enerji tüketiminde azalma sağlanmıştır. Aydınlatma sistemlerinin yenilenmesi ve ısı geri kazanım uygulamaları bu sonuçta belirleyici olmuştur.
+
+Yenilenebilir enerji kaynaklarının toplam tüketimimizdeki payı kademeli olarak artırılmaktadır. Çatı üstü güneş enerjisi kurulumları devreye alınmış, ek yatırımlar planlanmaktadır.
+
+İzleme altyapımız güçlendirilmiştir. Enerji tüketimi noktasal olarak ölçülmekte, sapmalar erken aşamada tespit edilebilmektedir.
+
+Çalışanlarımıza yönelik farkındalık programları düzenlenmiştir. Katılım oranları hedeflenen düzeyde gerçekleşmiştir.
+
+Önümüzdeki dönemde belirlenen hedeflere ulaşılması öngörülmektedir. Paydaşlarımızın görüş ve önerilerini her zaman değerli bulduğumuzu belirtmek isteriz.
+
+Tedarikçilerimizle yürütülen ortak çalışmalar da bu kapsamda değerlendirilmektedir. Lojistik süreçlerinde rota optimizasyonu uygulamaları hayata geçirilmiş, taşıma kaynaklı salımlarda azalma sağlanmıştır. Ölçüm yöntemlerimiz bağımsız kuruluşlar tarafından doğrulanmaktadır. Elde edilen sonuçlar yıllık sürdürülebilirlik raporumuzda ayrıntılı biçimde yer almaktadır.
+
+Hedeflerimizin gözden geçirilmesi yıllık olarak yapılmakta, sapmalar tespit edildiğinde düzeltici eylem planları devreye alınmaktadır."""),
+
+("kurumsal-ai", """Müşteri deneyimi stratejimizin gözden geçirilmesi tamamlanmış bulunmaktadır. Elde edilen bulgular ve atılacak adımlar aşağıda özetlenmiştir.
+
+Hizmet kanallarımız arasındaki bütünlüğün güçlendirilmesi öncelikli alan olarak belirlenmiştir. Farklı kanallardan gelen taleplerin tek bir yapıda izlenmesi, çözüm sürelerini kısaltacaktır.
+
+Geri bildirim toplama yöntemlerimiz çeşitlendirilmiştir. Anket temelli ölçümlere ek olarak, işlem sonrası değerlendirmeler devreye alınmıştır. Bu sayede daha güncel veriye ulaşılmaktadır.
+
+Çalışan yetkinliklerinin geliştirilmesi kapsamında eğitim programları güncellenmiştir. Sahada karşılaşılan örnek durumlar üzerinden yürütülen uygulamalı çalışmalar olumlu geri dönüş almıştır.
+
+Süreç iyileştirme çalışmalarında veri odaklı bir yaklaşım benimsenmiştir. Darboğaz oluşturan adımlar tespit edilmiş, sadeleştirme çalışmaları başlatılmıştır.
+
+Şeffaf iletişim ilkemiz doğrultusunda gelişmeleri düzenli olarak paylaşmayı sürdüreceğiz.
+
+Dijital kanallarımızda erişilebilirlik standartlarına uyum çalışmaları sürdürülmektedir. Ekran okuyucu uyumluluğu ve renk karşıtlığı gereksinimleri gözden geçirilmiş, tespit edilen eksiklikler giderilmiştir. Bu düzenlemelerin tüm kullanıcılar için deneyimi iyileştirdiği değerlendirilmektedir. Geri bildirimleriniz doğrultusunda gelişmeye devam edeceğimizi belirtmek isteriz.
+
+Uygulama takvimimiz çeyrek dönemler hâlinde planlanmış olup, ilerleme durumu düzenli aralıklarla paydaşlarımızla paylaşılacaktır."""),
+
+("kurumsal-ai", """Risk yönetimi çerçevemizin yıllık değerlendirmesi tamamlanmıştır. Süreç, bağımsız denetim bulguları dikkate alınarak yürütülmüştür.
+
+Operasyonel riskler kategorize edilerek önceliklendirilmiştir. Yüksek etkili risk alanları için azaltıcı kontroller tanımlanmış, sorumluluklar netleştirilmiştir.
+
+İş sürekliliği planlarımız güncellenmiştir. Kritik süreçler için alternatif çalışma senaryoları hazırlanmış, tatbikatlar gerçekleştirilmiştir. Tespit edilen iyileştirme alanları planlara yansıtılmıştır.
+
+Tedarik zinciri kaynaklı riskler ayrı bir başlık altında değerlendirilmiştir. Tek kaynağa bağımlılığın azaltılması yönündeki çalışmalar sürdürülmektedir.
+
+Bilgi güvenliği alanındaki kontroller düzenli testlerden geçirilmektedir. Çalışan farkındalığının güvenlik zincirindeki belirleyici rolü göz önünde bulundurularak eğitimler zorunlu tutulmuştur.
+
+Raporlama mekanizmalarımız güçlendirilmiştir. Risk göstergeleri yönetim kuruluna düzenli olarak sunulmaktadır.
+
+Mevzuat uyumu ayrı bir izleme başlığı olarak ele alınmaktadır. İlgili düzenlemelerdeki değişiklikler takip edilmekte, etki analizleri ilgili birimlerle paylaşılmaktadır. Uyum riskine ilişkin bulgular denetim komitesine düzenli olarak raporlanmaktadır. Çerçevenin bir sonraki gözden geçirmesinin önümüzdeki yıl gerçekleştirilmesi planlanmaktadır.
+
+Ayrıca iklim kaynaklı fiziksel ve geçiş risklerinin çerçeveye dâhil edilmesine yönelik hazırlık çalışmaları başlatılmış, ilk değerlendirme raporu hazırlanmıştır."""),
+
+("akademik-ai", """Şehir içi ulaşım planlamasında talep yönetimi yaklaşımı, altyapı yatırımlarına alternatif bir çerçeve sunmaktadır. Bu yaklaşım, kapasite artırımı yerine mevcut kapasitenin daha verimli kullanılmasını hedeflemektedir.
+
+Yol kapasitesinin artırılmasının uzun vadede trafiği azaltmadığı, aksine ek talep yarattığı çeşitli çalışmalarda ortaya konmuştur. Bu olgu literatürde uyarılmış talep olarak adlandırılmaktadır.
+
+Talep yönetimi araçları arasında fiyatlandırma mekanizmaları öne çıkmaktadır. Yoğunluk ücretlendirmesi uygulayan kentlerde merkez trafiğinde azalma gözlenmiştir. Ancak bu uygulamaların gelir dağılımı üzerindeki etkileri tartışma konusudur.
+
+Toplu taşımanın çekiciliğinin artırılması tamamlayıcı bir stratejidir. Sefer sıklığı ve güvenilirlik, kullanıcı tercihlerini fiyattan daha fazla etkileyebilmektedir.
+
+Esnek çalışma düzenlerinin yaygınlaşması, zirve saat yoğunluğunu azaltma potansiyeli taşımaktadır. Bu etkinin kalıcılığı henüz yeterince incelenmemiştir.
+
+Sonuç olarak, tek bir araca dayanan politikalar sınırlı sonuç vermektedir. Araçların birbirini destekleyecek biçimde tasarlanması gerekmektedir.
+
+Ölçme yöntemlerine ilişkin sınırlılıklar da belirtilmelidir. Trafik akışı verileri genellikle belirli noktalardan toplanmakta, bu da kentin bütününe genelleme yapmayı güçleştirmektedir. Mobil konum verilerinin kullanımı daha kapsamlı bir resim sunmakla birlikte mahremiyet açısından soru işaretleri doğurmaktadır. Yöntem seçiminin bulguları etkilediği göz önünde bulundurulmalıdır."""),
+
+("akademik-ai", """Dil edinim sürecinde girdi niteliğinin rolü, uygulamalı dilbilim alanının temel tartışma konularından biridir. Öğrenicinin maruz kaldığı dilsel verinin miktarı kadar niteliği de belirleyici görülmektedir.
+
+Anlaşılabilir girdi kavramı, öğrenicinin mevcut düzeyinin bir miktar üzerinde bulunan materyali ifade etmektedir. Bu düzeyin altındaki girdi gelişim sağlamamakta, çok üzerindeki girdi ise işlenememektedir.
+
+Etkileşimin rolü ayrıca vurgulanmaktadır. Anlam müzakeresi içeren karşılıklı iletişim, tek yönlü maruz kalmaya kıyasla daha güçlü sonuçlar üretmektedir. Öğrenici anlaşılmadığında yaptığı düzeltmeler, dilsel yapıların pekişmesine katkı sağlamaktadır.
+
+Çıktı üretiminin işlevi de göz ardı edilmemelidir. Üretim sırasında karşılaşılan güçlükler, öğrenicinin bilgi boşluklarını fark etmesini sağlamaktadır.
+
+Bireysel farklılıklar süreci etkileyen bir diğer boyuttur. Güdülenme düzeyi, kaygı ve öğrenme stratejileri edinim hızında farklılaşmaya yol açmaktadır.
+
+Özetle, dil edinimi tek bir değişkenle açıklanamayacak kadar çok boyutlu bir süreçtir. Öğretim tasarımlarının bu karmaşıklığı gözetmesi beklenmektedir.
+
+Yaş faktörü de sıklıkla tartışılan bir değişkendir. Erken yaşta başlayan edinimde sesletim açısından avantaj gözlenmekle birlikte, sözdizimsel gelişimde yetişkin öğrenicilerin hızlı ilerleyebildiği bildirilmektedir. Bu bulgular kritik dönem varsayımının mutlak biçimde yorumlanmaması gerektiğine işaret etmektedir. Alanda uzlaşı henüz sağlanmamıştır."""),
+
+("akademik-ai", """Kooperatif örgütlenme modeli, küçük ölçekli üreticilerin piyasa karşısındaki pazarlık gücünü artırmaya yönelik bir mekanizma olarak değerlendirilmektedir. Model, ortak alım ve satım yoluyla ölçek ekonomisi sağlamayı amaçlamaktadır.
+
+Tarım sektöründeki uygulamalar bu potansiyeli kısmen doğrulamaktadır. Ortak girdi temini maliyetleri düşürmekte, ortak pazarlama ise aracı sayısını azaltmaktadır. Üretici geliri üzerindeki etki olumlu yönde gözlenmektedir.
+
+Ancak modelin başarısı yönetişim kalitesine bağlıdır. Karar süreçlerinde şeffaflığın sağlanamadığı yapılarda üye bağlılığı zayıflamaktadır. Denetim mekanizmalarının işlerliği bu açıdan belirleyicidir.
+
+Finansmana erişim yaygın bir kısıt oluşturmaktadır. Kooperatiflerin teminat yapısı geleneksel kredi değerlendirme ölçütleriyle uyuşmamakta, bu da sermaye ihtiyacının karşılanmasını güçleştirmektedir.
+
+Ölçek büyüdükçe ortaya çıkan koordinasyon maliyetleri de dikkate alınmalıdır. Üye sayısı arttıkça karar alma süreçleri yavaşlayabilmektedir.
+
+Sonuç olarak, kooperatif modeli tek başına yeterli bir çözüm değildir. Destekleyici politika çerçevesi olmadan sürdürülebilirliği sınırlı kalmaktadır.
+
+Karşılaştırmalı çalışmalar, hukuki çerçevenin belirleyici olduğunu göstermektedir. Ortaklık yapısının ve kâr dağıtım kurallarının açık biçimde tanımlandığı ülkelerde kooperatiflerin ömrü daha uzun olmaktadır. Vergi düzenlemelerinin de model tercihini etkilediği gözlenmektedir. Bu nedenle politika tasarımında ülkeye özgü koşulların dikkate alınması gerekmektedir."""),
 ]
 
 
