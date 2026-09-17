@@ -15,7 +15,13 @@ import detector
 from engine import aggregate, ensemble, hidden, normalize, segment
 
 MIN_WORDS = 85       # bunun altinda karar vermiyoruz
-STRONG_WORDS = 300   # bunun uzerinde guven belirgin artar
+# Kisa metin uyarisinin esigi. Once 300 idi ve bu rakam bir varsayimdi.
+# eval/test_length.py olcumu varsayimi dogrulamadi: ayni metinler farkli
+# uzunluklara kirpilip olculdugunde ayirt etme gucu 85 kelimede bile
+# korunuyor (AUC 0.993, yakalama %88.9; 140 kelimede AUC 0.999, %93.0).
+# Uyari esigi olculen kirilma noktasina cekildi — dayanagi olmayan bir
+# uyari, kullaniciyi gercek riskin oldugu yerde de duyarsizlastirir.
+STRONG_WORDS = 140
 
 # Modeller ~7 GB tutuyor. Arac acik birakildiginda makineyi surekli mesgul
 # etmemesi icin, bu sure boyunca kullanilmazsa bellek geri verilir.
