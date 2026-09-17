@@ -191,7 +191,26 @@ def report_lang(lang, out):
 def main():
     out = ["# Ölçüm Raporu", "",
            "Bu dosya otomatik üretilir (`eval/run_eval.py`). Arayüzde gösterilen",
-           "doğruluk rakamlarının tek kaynağı budur.", ""]
+           "doğruluk rakamlarının tek kaynağı budur.", "",
+           "## Bu rakamları okurken",
+           "",
+           "**Türkçe sonuçlar iyimser okunmalıdır.** Türkçe AI örneklerinin tamamı",
+           "tek bir model ailesinden üretildi. ChatGPT ve Gemini'nin Türkçe üslubu",
+           "ölçüm setinde hiç temsil edilmiyor; gerçek kullanımda en sık karşılaşılan",
+           "iki kaynak bunlar.",
+           "",
+           "**Parafraz saldırısı sonucu özellikle yanıltıcıdır.** Parafraz örnekleri",
+           "(`eval/ai_tr_paraphrase.py`) kaynak metinlerle aynı model ailesinden",
+           "yeniden yazıldı. Gerçek \"humanizer\" araçları başka modeller kullanır ve",
+           "başka bir istatistiksel imza bırakır — bu ölçüm o durumu kapsamıyor.",
+           "Türkçe saldırı rakamı, İngilizce tarafın bağımsız kaynaklı (RAID)",
+           "rakamıyla doğrudan karşılaştırılamaz.",
+           "",
+           "**Eşik seçimi doğruluk için değil düşük yanlış pozitif için yapılır.**",
+           "İnsan metinlerinin en fazla %1'inin aşabildiği nokta seçilir; bir AI",
+           "metnini kaçırmak ile bir insanı haksız yere işaretlemek eşit maliyetli",
+           "hatalar değildir.",
+           ""]
     results = {}
     for lang in ("tr", "en"):
         r = report_lang(lang, out)

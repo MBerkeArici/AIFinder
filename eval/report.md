@@ -3,6 +3,25 @@
 Bu dosya otomatik üretilir (`eval/run_eval.py`). Arayüzde gösterilen
 doğruluk rakamlarının tek kaynağı budur.
 
+## Bu rakamları okurken
+
+**Türkçe sonuçlar iyimser okunmalıdır.** Türkçe AI örneklerinin tamamı
+tek bir model ailesinden üretildi. ChatGPT ve Gemini'nin Türkçe üslubu
+ölçüm setinde hiç temsil edilmiyor; gerçek kullanımda en sık karşılaşılan
+iki kaynak bunlar.
+
+**Parafraz saldırısı sonucu özellikle yanıltıcıdır.** Parafraz örnekleri
+(`eval/ai_tr_paraphrase.py`) kaynak metinlerle aynı model ailesinden
+yeniden yazıldı. Gerçek "humanizer" araçları başka modeller kullanır ve
+başka bir istatistiksel imza bırakır — bu ölçüm o durumu kapsamıyor.
+Türkçe saldırı rakamı, İngilizce tarafın bağımsız kaynaklı (RAID)
+rakamıyla doğrudan karşılaştırılamaz.
+
+**Eşik seçimi doğruluk için değil düşük yanlış pozitif için yapılır.**
+İnsan metinlerinin en fazla %1'inin aşabildiği nokta seçilir; bir AI
+metnini kaçırmak ile bir insanı haksız yere işaretlemek eşit maliyetli
+hatalar değildir.
+
 
 ## Türkçe
 
@@ -21,6 +40,20 @@ doğruluk rakamlarının tek kaynağı budur.
 
 Öğrenilen ağırlıklar: `{'binoculars': 0.773, 'siniflandirici': 0.363, 'stilometri': 1.148, 'gizlenmis': 2.92}`  ·  eşik: `0.6967`
 
+
+### Saldırı altında (parafraz / eşanlamlı / homoglif)
+
+Aynı eşikte yakalama oranı: **97.4%** (196 örnek)
+
+
+| Saldırı türü | Yakalama |
+|---|---:|
+| bosluk | 97.7% (43) |
+| esanlamli | 97.4% (39) |
+| homoglif | 97.7% (43) |
+| karma | 97.7% (43) |
+| noktalama | 95.2% (21) |
+| parafraz | 100.0% (7) |
 
 ### İnsan metinlerinde yanlış pozitif (kaynak bazında)
 

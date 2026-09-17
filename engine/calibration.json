@@ -139,7 +139,7 @@
     "auc": 0.9993,
     "tpr_at_fpr1": 1.0,
     "target_fpr": 0.05,
-    "attack_tpr": null,
+    "attack_tpr": 1.0,
     "n": 282,
     "n_human": 239,
     "n_ai": 43,
