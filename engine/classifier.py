@@ -85,15 +85,43 @@ class Classifier:
                 return int(idx)
         return 1 if len(id2label) >= 2 else 0
 
-    @torch.inference_mode()
+    # Binoculars'taki ile ayni gerekce: uzun bir belge onlarca pencereye
+    # bolunuyor ve hepsi tek partide gecirilince dikkat matrisleri
+    # (parti x kafa x token^2) MPS'i tasiriyor. Sinir burada uygulanir ki
+    # cagiran taraf pencere sayisini dusunmek zorunda kalmasin.
+    BATCH = 4
+
     def predict(self, texts, with_embeddings=False):
         """Metin listesi -> p(AI) listesi (0..1).
 
         with_embeddings=True ise (olasiliklar, gomuler) dondurur. Gomu ayni
         ileri gecisten alinir; Katman 4 icin ikinci bir model yuklenmez.
+        Girdi uzunlugundan bagimsiz olarak parti parti islenir.
         """
         if isinstance(texts, str):
             texts = [texts]
+        if len(texts) <= self.BATCH:
+            return self._predict_batch(texts, with_embeddings)
+
+        probs, embs = [], []
+        for i in range(0, len(texts), self.BATCH):
+            r = self._predict_batch(texts[i:i + self.BATCH], with_embeddings)
+            if with_embeddings:
+                probs.extend(r[0]); embs.append(r[1])
+            else:
+                probs.extend(r)
+            try:
+                if self.device == "mps":
+                    torch.mps.empty_cache()
+            except Exception:
+                pass
+        if with_embeddings:
+            import numpy as np
+            return probs, np.vstack(embs)
+        return probs
+
+    @torch.inference_mode()
+    def _predict_batch(self, texts, with_embeddings=False):
         enc = self.tok(texts, return_tensors="pt", padding=True,
                        truncation=True, max_length=self.max_len).to(self.device)
         if self.kind == "desklib":

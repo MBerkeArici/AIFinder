@@ -52,6 +52,24 @@ class Binoculars:
         return cls._shared
 
     @classmethod
+    def release(cls):
+        """Iki dil modelini bellekten dusur.
+
+        16 GB'lik bir makinede Binoculars cifti + siniflandiricilar ayni anda
+        tutuldugunda sistem takasa giriyor ve TUM bilgisayar yavasliyor.
+        Toplu olcumde katmanlar sirayla calistirilmali, aradaki model
+        bosaltilmalidir. Model SECIMI degistirilemez — calibration.json
+        bu modellerin skor dagilimina gore kalibre edildi."""
+        import gc
+        from engine import memory
+        if cls._shared is not None:
+            cls._shared.observer = None
+            cls._shared.performer = None
+            cls._shared = None
+        gc.collect()
+        memory.release()
+
+    @classmethod
     def unload(cls):
         """Iki modeli de bellekten dusur (~6 GB geri verilir)."""
         from engine.memory import release
@@ -61,11 +79,41 @@ class Binoculars:
             del inst
         release()
 
-    @torch.inference_mode()
+    # Tek partide islenecek azami metin sayisi.
+    #
+    # NEDEN SINIR VAR: lm_head ciktisi (parti x token x 151936) tek bir
+    # tensor olarak ayriliyor. Uzun bir belge 40+ pencereye bolundugunde
+    # bu tensor 6-7 GB'a ulasip MPS'i tasiriyordu ("MPS backend out of
+    # memory ... tried to allocate 6.75 GiB"). Cagiran tarafin kac pencere
+    # gonderdigini bilmesi gerekmesin diye sinir burada uygulanir.
+    BATCH = 4
+
     def score(self, texts):
-        """Metin listesi icin Binoculars skorlari (dusuk = AI)."""
+        """Metin listesi icin Binoculars skorlari (dusuk = AI).
+
+        Girdi ne kadar uzun olursa olsun parti parti islenir; parti arasinda
+        MPS onbellegi bosaltilir.
+        """
         if isinstance(texts, str):
             texts = [texts]
+        out = []
+        for i in range(0, len(texts), self.BATCH):
+            out.extend(self._score_batch(texts[i:i + self.BATCH]))
+            if len(texts) > self.BATCH:
+                self._free()
+        return out
+
+    def _free(self):
+        try:
+            if self.device == "mps":
+                torch.mps.empty_cache()
+            elif self.device == "cuda":
+                torch.cuda.empty_cache()
+        except Exception:
+            pass
+
+    @torch.inference_mode()
+    def _score_batch(self, texts):
         enc = self.tok(texts, return_tensors="pt", padding=True,
                        truncation=True, max_length=MAX_TOKENS).to(self.device)
 
@@ -74,6 +122,7 @@ class Binoculars:
 
         ppl = self._perplexity(enc, perf_logits)
         xppl = self._cross_perplexity(obs_logits, perf_logits, enc)
+        del obs_logits, perf_logits, enc
         return (ppl / np.maximum(xppl, 1e-6)).tolist()
 
     def _perplexity(self, enc, logits):

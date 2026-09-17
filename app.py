@@ -17,10 +17,22 @@ _ready = {"models": False, "error": None}
 
 
 def _warm():
+    """Modelleri onden yuklemeyi dener.
+
+    DIKKAT: 'ready' bayragi "modeller onden yuklendi" degil, "sunucu istek
+    kabul edebilir" anlamina gelir. Arayuz bu bayrak false iken Incele
+    dugmesini calistirmiyor; on-yukleme bellek yetersizliginden atlandiginda
+    bayragi false birakmak, calisan bir sunucuda dugmeyi sessizce olduruyordu.
+    On-yukleme atlansa bile modeller ilk istekte yuklenir, yalnizca o istek
+    yavas olur.
+    """
     try:
-        _ready["models"] = engine.warmup()
+        _ready["preloaded"] = bool(engine.warmup())
     except Exception as e:
         _ready["error"] = str(e)
+        _ready["preloaded"] = False
+    finally:
+        _ready["models"] = True
 
 
 # AIFINDER_NO_WARMUP=1 ile modeller onden yuklenmez: arayuzu bellek
@@ -36,7 +48,8 @@ def index():
 
 @app.get("/api/status")
 def status():
-    return jsonify(ready=_ready["models"], error=_ready["error"],
+    return jsonify(ready=_ready["models"], preloaded=_ready.get("preloaded", False),
+                   error=_ready["error"],
                    calibrated={l: ensemble.available(l) for l in ("tr", "en")},
                    quality={l: ensemble.quality(l) for l in ("tr", "en")})
 
