@@ -8,10 +8,11 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-import ai_tr_long_1, ai_tr_long_2, ai_tr_long_3          # noqa: E402
+import ai_tr_long_1, ai_tr_long_2, ai_tr_long_3, ai_tr_long_4   # noqa: E402
 import ai_tr_samples                                      # noqa: E402
 
-rows = ai_tr_long_1.rows() + ai_tr_long_2.rows() + ai_tr_long_3.rows()
+rows = (ai_tr_long_1.rows() + ai_tr_long_2.rows() + ai_tr_long_3.rows()
+        + ai_tr_long_4.rows())
 short = ai_tr_samples.all_samples()          # ilk kisa set: ayri dosyada saklanir
 
 out = os.path.join(os.path.dirname(HERE), "data")

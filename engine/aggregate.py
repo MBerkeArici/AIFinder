@@ -38,10 +38,32 @@ def combine(windows, probs, total_words, thr):
 
 
 def document_confidence(probs, n_words, thr):
-    """Belge geneli guven: kararin esikten ne kadar uzak oldugu + metin uzunlugu."""
+    """Belge geneli guven: kararin esikten ne kadar uzak oldugu + metin uzunlugu.
+
+    Uzaklik ASIMETRIK normalize edilir. Onceki surum her iki yonu de
+    max(esik, 1-esik) ile bolüyordu; esik dustugunde (orn. 0.13) bu,
+    olasiligi 0.00 olan — yani mumkun olan en net insan karari — bir metne
+    %15 guven veriyordu. Oysa insan tarafinda ulasilabilecek en buyuk
+    uzaklik esigin kendisidir, cunku olasilik sifirin altina inemez.
+
+    Dogrusu: karar hangi taraftaysa o tarafin kendi araligina bolunur.
+      esigin altinda -> (esik - p) / esik          [tam guven: p = 0]
+      esigin ustunde -> (p - esik) / (1 - esik)    [tam guven: p = 1]
+    """
     if not probs:
         return 0
-    margin = sum(abs(p - thr) for p in probs) / len(probs)
-    margin_score = min(1.0, margin / max(thr, 1 - thr))
-    length_score = min(1.0, max(0.0, (n_words - 85) / 500.0))
-    return round(100 * (0.6 * margin_score + 0.4 * length_score))
+
+    scores = []
+    for p in probs:
+        if p >= thr:
+            scores.append((p - thr) / max(1e-9, 1.0 - thr))
+        else:
+            scores.append((thr - p) / max(1e-9, thr))
+    margin_score = min(1.0, sum(scores) / len(scores))
+
+    # Uzunluk: sistem 140 kelimelik pencerelerle kalibre edildi, dolayisiyla
+    # doyum noktasi 300 kelime. Onceki 500 degeri, kalibrasyonun gerektirdigi
+    # uzunlugun iki katini istiyor ve normal metinleri gereksiz cezalandiriyordu.
+    length_score = min(1.0, max(0.0, (n_words - 85) / 215.0))
+
+    return round(100 * (0.65 * margin_score + 0.35 * length_score))

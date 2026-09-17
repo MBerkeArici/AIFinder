@@ -6,20 +6,20 @@ doğruluk rakamlarının tek kaynağı budur.
 
 ## Türkçe
 
-Örnek: **239 insan**, **27 AI** (her metin ilk 140 kelimeye kırpıldı).
+Örnek: **239 insan**, **43 AI** (her metin ilk 140 kelimeye kırpıldı).
 
 
 ### Tek tek sinyaller
 
 | Sinyal | ROC-AUC | TPR @ FPR %1 |
 |---|---:|---:|
-| binoculars | 0.824 | 0.0% |
-| siniflandirici | 0.810 | 18.5% |
-| stilometri | 0.861 | 7.4% |
-| gizlenmis | 0.500 | 0.0% |
-| **birleşik (ensemble)** | **0.888** | **11.1%** |
+| binoculars | 0.812 | 0.0% |
+| siniflandirici | 0.823 | 18.6% |
+| stilometri | 0.861 | 4.7% |
+| gizlenmis | 0.904 | 48.8% |
+| **birleşik (ensemble)** | **0.971** | **25.6%** |
 
-Öğrenilen ağırlıklar: `{'binoculars': 1.178, 'siniflandirici': 0.139, 'stilometri': 1.411, 'gizlenmis': 0.0}`  ·  eşik: `0.9739`
+Öğrenilen ağırlıklar: `{'binoculars': 0.83, 'siniflandirici': 0.277, 'stilometri': 1.801, 'gizlenmis': 1.982}`  ·  eşik: `0.9791`
 
 
 ### İnsan metinlerinde yanlış pozitif (kaynak bazında)
@@ -28,7 +28,7 @@ doğruluk rakamlarının tek kaynağı budur.
 |---|---:|---:|
 | ttc4900 | 0.0% | 113 |
 | urun-yorumlari | 0.0% | 39 |
-| wikipedia-tr-2023 | 0.0% | 87 |
+| wikipedia-tr-2023 | 1.1% | 87 |
 
 ## İngilizce
 
@@ -42,22 +42,22 @@ doğruluk rakamlarının tek kaynağı budur.
 | binoculars | 0.566 | 0.0% |
 | siniflandirici | 0.799 | 58.3% |
 | stilometri | 0.618 | 7.2% |
-| gizlenmis | 1.000 | 100.0% |
-| **birleşik (ensemble)** | **0.998** | **100.0%** |
+| gizlenmis | 0.994 | 93.5% |
+| **birleşik (ensemble)** | **0.995** | **80.6%** |
 
-Öğrenilen ağırlıklar: `{'binoculars': -0.06, 'siniflandirici': 0.343, 'stilometri': 0.114, 'gizlenmis': 4.139}`  ·  eşik: `0.5555`
+Öğrenilen ağırlıklar: `{'binoculars': -0.823, 'siniflandirici': 1.376, 'stilometri': -0.287, 'gizlenmis': 4.015}`  ·  eşik: `0.9564`
 
 
 ### Saldırı altında (parafraz / eşanlamlı / homoglif)
 
-Aynı eşikte yakalama oranı: **75.6%** (78 örnek)
+Aynı eşikte yakalama oranı: **83.3%** (78 örnek)
 
 
 | Saldırı türü | Yakalama |
 |---|---:|
 | homoglyph | 100.0% (19) |
-| paraphrase | 65.0% (20) |
-| synonym | 40.0% (20) |
+| paraphrase | 75.0% (20) |
+| synonym | 60.0% (20) |
 | whitespace | 100.0% (19) |
 
 ### İnsan metinlerinde yanlış pozitif (kaynak bazında)

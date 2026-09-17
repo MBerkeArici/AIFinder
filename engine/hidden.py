@@ -20,42 +20,54 @@ import os
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-HEAD_PATH = os.path.join(HERE, "hidden_head.npz")
+HEAD_PATH = os.path.join(HERE, "hidden_head.npz")          # Ingilizce (desklib govdesi)
+HEAD_PATH_TR = os.path.join(HERE, "hidden_head_tr.npz")    # Turkce (BERTurk govdesi)
 
-_head = None
+_heads = {}
 
 
-# Kafa, desklib govdesinin 1024 boyutlu gomuleri uzerinde egitildi.
-# Turkce siniflandirici (BERTurk) 768 boyut uretir; o gomulerle bu kafa
-# kullanilamaz. Turkce icin ayri bir kafa egitilmesi gerekir ve bunun icin
-# once Turkce gizlenmis AI ornekleri toplanmalidir.
-SUPPORTED_LANGS = ("en",)
+def _head_path(lang):
+    return HEAD_PATH_TR if lang == "tr" else HEAD_PATH
+
+
+# Her dilin kafasi kendi govdesinin gomuleri uzerinde egitilir ve boyutlari
+# farklidir: desklib 1024, BERTurk 768. Kafa dosyasi yoksa ya da boyut
+# uymuyorsa katman sessizce devre disi kalir (score() notr 0.5 doner) —
+# yanlis boyutla yanlis sonuc uretmektense hic uretmemek dogru.
+#
+# Turkce kafa icin egitim verisi: eval/ai_tr_hidden.py (gizlenmis AI) ve
+# data/human_tr_informal.jsonl (uslupca eslesen insan metni).
+# Egitim: eval/train_hidden_tr.py
+SUPPORTED_LANGS = ("en", "tr")
 
 
 def available(lang="en"):
-    return lang in SUPPORTED_LANGS and os.path.exists(HEAD_PATH)
+    return lang in SUPPORTED_LANGS and os.path.exists(_head_path(lang))
 
 
-def _load():
-    global _head
-    if _head is None and available():
-        z = np.load(HEAD_PATH)
-        _head = {k: z[k] for k in z.files}
-    return _head
+def _load(lang="en"):
+    if lang not in _heads:
+        path = _head_path(lang)
+        if not (lang in SUPPORTED_LANGS and os.path.exists(path)):
+            _heads[lang] = None
+        else:
+            z = np.load(path)
+            _heads[lang] = {k: z[k] for k in z.files}
+    return _heads[lang]
 
 
-def quality():
-    h = _load()
+def quality(lang="en"):
+    h = _load(lang)
     return float(h["auc"]) if h is not None and "auc" in h else None
 
 
-def score(embeddings):
+def score(embeddings, lang="en"):
     """Gomu matrisi (n, hidden) -> p(gizlenmis AI) listesi.
 
     Boyut uyusmazsa (baska bir govdenin gomusu) notr 0.5 doner; sessizce
     yanlis sonuc uretmektense katman devre disi kalir.
     """
-    h = _load()
+    h = _load(lang)
     emb = np.asarray(embeddings, dtype=np.float64)
     if h is None or emb.ndim != 2 or emb.shape[1] != h["mean"].shape[0]:
         return [0.5] * len(emb)

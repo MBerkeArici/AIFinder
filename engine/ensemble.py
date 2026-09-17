@@ -77,9 +77,42 @@ def probability(feat, lang):
     return max(0.0, min(1.0, p)), c
 
 
-def threshold(lang):
+def threshold(lang, n_windows=1):
+    """Pencere sayisina gore ayarlanmis esik.
+
+    Belge birden cok pencereye bolundugunde her pencere ayri bir yanlis
+    pozitif sansi verir. Sabit esikle belge duzeyi hata orani pencere
+    sayisiyla birlikte buyur: pencere basina %5 risk, 10 pencerede
+    1-(0.95)^10 = %40 eder. Olcum 140 kelimelik tek parcalarla yapildigi
+    icin bu etki olcumde gorunmuyordu; gercek belgelerde goruldu
+    (20 insan metninin 2'si isaretlendi).
+
+    Duzeltme: her pencerenin asmasi gereken yuzdelik, belge duzeyi hedefi
+    sabit kalacak sekilde yukseltilir  ->  q = (1 - hedef)^(1/n)
+    """
     c = load().get(lang) or {}
-    return c.get("threshold", 0.5)
+    base = c.get("threshold", 0.5)
+    hq = c.get("human_q")
+    if not hq or n_windows <= 1:
+        return base
+
+    target = c.get("target_fpr", 0.05)
+    q_needed = (1.0 - target) ** (1.0 / float(n_windows))
+
+    qs, vs = hq["q"], hq["v"]
+    if q_needed <= qs[0]:
+        adj = vs[0]
+    elif q_needed >= qs[-1]:
+        adj = vs[-1]
+    else:
+        adj = vs[-1]
+        for i in range(len(qs) - 1):
+            if qs[i] <= q_needed <= qs[i + 1]:
+                span = qs[i + 1] - qs[i]
+                t = 0.0 if span == 0 else (q_needed - qs[i]) / span
+                adj = vs[i] + t * (vs[i + 1] - vs[i])
+                break
+    return max(base, float(adj))
 
 
 def quality(lang):

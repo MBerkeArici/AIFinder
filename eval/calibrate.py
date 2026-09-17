@@ -31,6 +31,16 @@ TARGET_FPR = 0.05   # kullanici karari: kisisel kullanimda dengeli nokta
 OUT = os.path.join(ROOT, "engine", "calibration.json")
 
 
+def _human_quantiles(scores, y):
+    """Insan metinlerinin skor dagilimindan yuzdelik tablosu."""
+    import numpy as _np
+    h = _np.asarray(scores)[_np.asarray(y) == 0]
+    if len(h) == 0:
+        return None
+    qs = [0.50, 0.75, 0.90, 0.95, 0.97, 0.98, 0.99, 0.995, 0.998, 0.999, 1.0]
+    return {"q": qs, "v": [round(float(_np.quantile(h, q)), 8) for q in qs]}
+
+
 def build(lang):
     human = ev.read("human_%s.jsonl" % lang)
     ai = ev.read("ai_%s.jsonl" % lang)
@@ -136,6 +146,12 @@ def build(lang):
         "intercept": round(float(lr.intercept_[0]), 8),
         "isotonic": iso_pts,   # None ise uygulanmaz
         "threshold": round(float(thr), 9),
+        # Belge duzeyi duzeltme icin: insan metinlerinin pencere skor dagilimi.
+        # Cok pencereli bir belgede her pencere ayri bir sans veriyor; esik
+        # sabit kalirsa belge duzeyi yanlis pozitif pencere sayisiyla birlikte
+        # buyur (10 pencere x %5 -> ~%40). Asagidaki yuzdelikler, calisma
+        # zamaninda pencere sayisina gore esigi sikilastirmak icin kullanilir.
+        "human_q": _human_quantiles(cal_oof if use_iso else oof, y),
         "auc": round(float(auc_v), 4),
         "tpr_at_fpr1": round(float(tpr), 4),
         "target_fpr": TARGET_FPR,

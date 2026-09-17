@@ -97,7 +97,7 @@ def _stage_classifier(todo, batch, verbose):
                 chunk = sub[i:i + batch]
                 if clf and hidden.available(lang):
                     probs, embs = clf.predict([r["text"] for r in chunk], with_embeddings=True)
-                    hids = hidden.score(embs)
+                    hids = hidden.score(embs, lang)   # dil sart: TR kafa 768, EN kafa 1024 boyutlu
                 elif clf:
                     probs, hids = clf.predict([r["text"] for r in chunk]), [0.5] * len(chunk)
                 else:

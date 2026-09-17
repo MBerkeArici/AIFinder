@@ -176,6 +176,64 @@ def wikipedia_tr_hf(n=90):
     return rows
 
 
+def formal_tr_train(n=110):
+    """Gizlenmis kafanin EGITIMI icin resmi Turkce insan metni.
+
+    NEDEN GEREKLI: kafa ilk surumde yalnizca birlestirilmis urun yorumlariyla
+    egitilmisti. Sonuc olcumde goruldu — insan metinlerinin ortalama skoru
+    0.524, ust ceyregi 0.97. Model "insan"i ogrenmemis, "birlestirilmis kisa
+    yorum"u ogrenmisti; akici ve duzgun yazilmis haber/ansiklopedi metnini
+    yapay zeka saniyordu. Yanlis pozitifin en pahali oldugu tur tam olarak bu.
+
+    CAKISMA YASAGI: olcum seti data/human_tr.jsonl'dir. Buradan donen
+    metinler onunla kesismemelidir, yoksa kafa kendi olcum verisi uzerinde
+    egitilmis olur ve rapor gercek disi cikar. Kesisim metin onekiyle
+    engellenir.
+    """
+    from datasets import load_dataset
+
+    used = set()
+    ep = os.path.join(DATA, "human_tr.jsonl")
+    if os.path.exists(ep):
+        with open(ep, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    used.add(json.loads(line)["text"][:80])
+                except Exception:
+                    pass
+    print("Egitim icin resmi Turkce metin cekiliyor (olcumdeki %d metin haric)..."
+          % len(used))
+
+    rows = []
+    ds = load_dataset("savasy/ttc4900", split="train")
+    idx = list(range(len(ds)))
+    random.Random(777).shuffle(idx)          # olcumden FARKLI siralama
+    for i in idx:
+        t = clip((ds[i]["text"] or "").strip())
+        if not t or t[:80] in used:
+            continue
+        used.add(t[:80])
+        rows.append({"text": t, "label": 0, "lang": "tr",
+                     "source": "ttc4900-egitim", "kind": "resmi_insan"})
+        if len(rows) >= n - 25:      # agirlik yerel derlemde: akis cok yavas
+            break
+
+    wd = load_dataset("wikimedia/wikipedia", "20231101.tr", split="train", streaming=True)
+    for i, r in enumerate(wd):
+        if i % 5 != 3:                       # olcumdeki "i %% 7 == 0" ile ortusmez
+            continue
+        body = re.sub(r"\n{2,}", "\n\n", (r.get("text") or "").strip())
+        t = clip(body)
+        if not t or t[:80] in used:
+            continue
+        used.add(t[:80])
+        rows.append({"text": t, "label": 0, "lang": "tr",
+                     "source": "wikipedia-tr-egitim", "kind": "resmi_insan"})
+        if len(rows) >= n:
+            break
+    return rows
+
+
 def reviews_tr(n=40, per_doc=14):
     """Kisa urun yorumlarini birlestirerek gayriresmi insan metni uretir."""
     from datasets import load_dataset
@@ -197,6 +255,40 @@ def reviews_tr(n=40, per_doc=14):
     return rows
 
 
+def informal_tr(n=170, per_doc=26):
+    """Gayriresmi Turkce insan metni — USLUP DENGESI icin zorunlu.
+
+    engine/hidden.py'nin notu: egitimde insan tarafi uslup olarak esitlenmezse
+    model yapay zekayi degil "resmi dil"i ogrenir. Turkce gizlenmis AI
+    ornekleri (eval/ai_tr_hidden.py) gunluk uslupta yazildi; karsilarina
+    ayni uslupta insan metni konmazsa model "samimi yazi = AI" gibi ters ve
+    zararli bir kural ogrenir. Haber ve Vikipedi bu dengeyi saglamiyor.
+
+    Yorumlar tek tek cok kisa; 140 kelimelik olcum bandini karsilamak icin
+    birlestiriliyor. Birlestirme yapaylik katiyor ama alternatif, gayriresmi
+    insan metnini tumuyle disarida birakmak.
+    """
+    from datasets import load_dataset
+    print("Gayriresmi Turkce metin (urun yorumlari) cekiliyor...")
+    ds = load_dataset("fthbrmnby/turkish_product_reviews", split="train", streaming=True)
+    buf, rows, seen = [], [], set()
+    for r in ds:
+        t = (r.get("sentence") or "").strip()
+        if len(t.split()) < 8 or t[:40] in seen:
+            continue
+        seen.add(t[:40])
+        buf.append(t if t.endswith((".", "!", "?")) else t + ".")
+        if len(buf) >= per_doc:
+            doc = clip(" ".join(buf), lo=145)
+            buf = []
+            if doc:
+                rows.append({"text": doc, "label": 0, "lang": "tr",
+                             "source": "urun-yorumlari", "kind": "gayriresmi_insan"})
+            if len(rows) >= n:
+                break
+    return rows
+
+
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("all", "en"):
@@ -205,3 +297,7 @@ if __name__ == "__main__":
         tr = ttc4900(120) + wikipedia_tr_hf(90) + reviews_tr(40)
         random.shuffle(tr)
         write(os.path.join(DATA, "human_tr.jsonl"), tr)
+    if what in ("all", "tr", "informal"):
+        write(os.path.join(DATA, "human_tr_informal.jsonl"), informal_tr(170))
+    if what in ("all", "tr", "formal-train"):
+        write(os.path.join(DATA, "human_tr_formal_train.jsonl"), formal_tr_train(110))

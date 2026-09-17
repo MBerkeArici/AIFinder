@@ -57,7 +57,7 @@ def _features(texts, lang):
     if clf and hidden.available(lang):
         # gomu ayni ileri gecisten gelir — ek model yuklenmez
         probs, embs = clf.predict(texts, with_embeddings=True)
-        hid = hidden.score(embs)
+        hid = hidden.score(embs, lang)
     elif clf:
         probs, hid = clf.predict(texts), [0.5] * len(texts)
     else:
@@ -71,14 +71,40 @@ def _features(texts, lang):
 
 
 def warmup():
+    """Modelleri onden yukle — ama yalnizca yer varsa.
+
+    Bellek sikisikken acilista 6+ GB'lik yigini yuklemek makineyi takasa
+    sokar. Yer yoksa on-yukleme atlanir; modeller ilk analiz isteginde
+    yuklenir. Sunucu her durumda ayaga kalkar.
+    """
     """Modelleri onden yukle; ilk istegin 15 saniye beklemesini onler."""
     try:
+        from engine import memory
+        free = memory.free_gb()
+        if 0 <= free < 4.0:
+            print("[warmup] kullanilabilir bellek %.1f GB — on-yukleme atlandi; "
+                  "modeller ilk analizde yuklenecek." % free)
+            return False
         from engine.binoculars import Binoculars
         from engine import classifier
         Binoculars.shared()
         for lang in ("tr", "en"):
             if ensemble.available(lang):
                 classifier.get(lang)
+
+        # ISINMA: modelleri yuklemek yetmiyor. MPS/CUDA ilk gercek ileri
+        # gecise kadar hesap grafigini derlemiyor; bu yuzden ilk kullanici
+        # istegi ~37 sn suruyordu, sonrakiler ~7 sn. Burada kukla bir gecis
+        # yapip derlemeyi onden bitiriyoruz.
+        dummy = ("Bu bir isinma metnidir ve yalnizca modellerin hesap "
+                 "grafigini derlemek icin kullanilir. " * 6)
+        for lang in ("tr", "en"):
+            if not ensemble.available(lang):
+                continue
+            try:
+                _features([dummy], lang)
+            except Exception:
+                pass
         _touch()
         return True
     except Exception as e:
@@ -131,7 +157,8 @@ def analyze(text, forensics=None):
         probs.append(p)
         calib = calib or c
 
-    thr = ensemble.threshold(lang)
+    # esik pencere sayisina gore sikilasir (coklu karsilastirma duzeltmesi)
+    thr = ensemble.threshold(lang, n_windows=len(wins))
     agg = aggregate.combine(wins, probs, n, thr)
     percent = agg["percent"]
     confidence = aggregate.document_confidence(probs, n, thr)
