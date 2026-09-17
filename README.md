@@ -1,284 +1,227 @@
-<div align="center">
-
 # AIFinder
 
-**Bir metnin hangi bölümlerinin yapay zekâ tarafından yazılmış olabileceğini
-tahmin eden, tamamen yerel çalışan bir inceleme aracı.**
+Bir metnin yapay zekâ tarafından yazılıp yazılmadığını tahmin etmeye çalışan
+bir araç. Türkçe ve İngilizce çalışıyor, PDF ve Word dosyalarını da okuyabiliyor.
+Her şey kendi bilgisayarında çalışıyor, metin hiçbir yere gönderilmiyor.
 
-Türkçe ve İngilizce · PDF, Word ve düz metin · İnternet bağlantısı gerektirmez
+Başta basit bir şey olacağını düşünmüştüm. Öyle olmadı.
 
-![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.14-EE4C2C?logo=pytorch&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-sunucu-000000?logo=flask&logoColor=white)
-![Yerel](https://img.shields.io/badge/veri-cihazdan%20çıkmaz-2e7d5b)
-![Lisans](https://img.shields.io/badge/lisans-MIT-blue)
+## Önce şunu söyleyeyim
 
-</div>
+Bu araç kesin sonuç vermiyor, veremez de. Hiçbir araç veremiyor zaten.
 
----
+Stanford'un 2023'te yaptığı bir çalışmada, yedi farklı ticari detektör test
+edilmiş ve ana dili İngilizce olmayan öğrencilerin denemelerinin **%61'ini**
+yanlışlıkla "yapay zekâ" olarak işaretlemişler. Yani düzgün İngilizce yazmaya
+çalışan bir öğrenci, sırf düzgün yazdığı için suçlanabiliyor.
 
-> ### ⚠️ Önce bunu okuyun
->
-> **Bu araç kanıt üretmez.** Hiçbir yöntem — bu dahil — bir metnin yapay zekâ
-> ile yazıldığını kesin olarak kanıtlayamaz. Burada gördüğünüz, ölçülmüş bir
-> olasılık tahminidir.
->
-> Stanford'un 2023 tarihli çalışmasında (Liang ve ark., *Patterns*), yedi
-> ticari detektör ana dili İngilizce olmayan kişilerin denemelerinin
-> **%61'ini** yanlışlıkla "yapay zekâ" olarak işaretledi. Bu yanlılık
-> gerçektir ve bu araçta da sıfırlanmış değildir.
->
-> **Not verme, disiplin işlemi veya bir kişi hakkında karar almak için tek
-> başına kullanmayın.**
+Bu yüzden aracı, hata yapacaksa "kaçırma" yönünde hata yapacak şekilde ayarladım.
+Bir yapay zekâ metnini kaçırmak, bir insanı haksız yere suçlamaktan daha az kötü.
 
----
+Not vermek, disiplin işlemi yapmak gibi şeyler için tek başına kullanmayın.
 
-## Ne yapar
+## Nasıl çalışıyor
 
-Metni ya da belgeyi alır, **bölüm bölüm** inceler ve her bölüm için ayrı karar
-verir. Sonuç tek bir "yapay zekâ mı değil mi" hükmü değil, belgenin yüzde
-kaçının yapay zekâ üretimi göründüğüdür.
-
-Bu ayrım önemli: yarısını insanın yazıp yarısını yapay zekâya tamamlattığı bir
-belgede tek bir ortalama gerçeği gizler.
-
-| | |
-|---|---|
-| 🔒 **Tamamen yerel** | Metin hiçbir sunucuya gönderilmez, internet gerekmez |
-| 📄 **Belge okur** | PDF, DOCX, TXT, MD — ayrıca dosya üstverisini de inceler |
-| 🧩 **Bölüm bazlı** | Karma belgelerde hangi kısmın nereden geldiğini gösterir |
-| 🛡️ **Saldırıya dayanıklı** | Homoglif ve görünmez karakterle tespit atlatmayı yakalar |
-| 📊 **Ölçülmüş** | Gösterilen doğruluk rakamları kendi ölçümümüzden gelir |
-| 🚫 **"İnsan yazımı" demez** | İz bulamamak, iz olmadığı anlamına gelmez |
-
----
-
-## Nasıl çalışır
-
-```mermaid
-flowchart TD
-    A["📄 Metin / PDF / DOCX"] --> B["extract.py<br/>metin + belge üstverisi"]
-    B --> C["normalize.py<br/>homoglif ve görünmez karakter temizliği"]
-    C --> D["segment.py<br/>~140 kelimelik, %50 örtüşen pencereler"]
-    D --> E1["① Binoculars<br/>iki dil modeli, eğitimsiz"]
-    D --> E2["② Sınıflandırıcı<br/>DeBERTa-v3-large"]
-    D --> E3["③ Gizlenmiş AI<br/>gömü + eğitilmiş kafa"]
-    D --> E4["④ Stilometri<br/>9 biçem sinyali"]
-    E1 --> F["ensemble.py<br/>ağırlıklar veriden öğrenilir"]
-    E2 --> F
-    E3 --> F
-    E4 --> F
-    F --> G["kalibrasyon<br/>eşik: yanlış pozitif ≤ %5"]
-    G --> H["aggregate.py<br/>eşiği aşan bölümlerin kelime oranı"]
-    H --> I["📊 % yapay zekâ"]
-
-    style A fill:#f4f4f2,stroke:#d9d8d4,color:#1a1918
-    style I fill:#e8f2ec,stroke:#2e7d5b,color:#1a1918
-    style G fill:#fdf6e3,stroke:#b5860c,color:#1a1918
-```
-
-### Temel fikir
-
-Bir dil modeli metni kelime kelime üretirken her adımda **en olası
-kelimelerden** birini seçer. Bu, üretimin doğasından gelen ölçülebilir bir iz
-bırakır: çıktı istatistiksel olarak *öngörülebilir* olur.
+Temel fikir şu: dil modelleri metni kelime kelime üretirken hep en olası
+kelimeyi seçme eğiliminde. İnsan öyle yazmıyor — tuhaf kelime seçiyor, cümleyi
+yarıda bırakıyor, alakasız detay veriyor.
 
 ```
-"Sonuç olarak, bu konu büyük önem ..."  →  "taşımaktadır"  %68 olası   ← düşük şaşkınlık
-"Kedim dün gece yine ..."               →  "kustu"          %0.3 olası  ← yüksek şaşkınlık
+"Sonuç olarak bu konu büyük önem ..."  → "taşımaktadır"   çok beklenen
+"Kedim dün gece yine ..."              → "kustu"          hiç beklenmeyen
 ```
 
-İnsan tuhaf kelime seçer, cümleyi yarıda keser, gereksiz detay verir. Tespitin
-tamamı bu farkın üzerine kuruludur.
+Bu farkı ölçmeye çalışıyoruz.
 
----
+Belge tek parça değerlendirilmiyor. Yaklaşık 140 kelimelik, birbiriyle örtüşen
+parçalara bölünüyor ve her parça ayrı puanlanıyor. Böylece yarısını kendin
+yazıp yarısını yapay zekâya yazdırdığın bir metinde hangi kısmın ne olduğu
+görülebiliyor. (Turnitin de benzer bir şey yapıyor.)
 
-## Dört katman
+Her parça dört ayrı yerden geçiyor:
 
-Her katman bağımsız çalışır; hiçbiri tek başına yeterli değildir.
+**1. Binoculars.** İki dil modeli kullanıyor ve aralarındaki "şaşkınlık farkına"
+bakıyor. 2024'te ICML'de yayımlanan bir yöntem. Güzel tarafı hiç eğitim
+gerektirmemesi — yani yarın yeni bir GPT çıksa bu yöntem yine çalışır.
 
-| Katman | Ne yapar | Neden var |
+**2. Eğitilmiş sınıflandırıcı.** `desklib/ai-text-detector-v1.01` modeli.
+Milyonlarca metinle eğitilmiş, bilinen modellerde çok iyi.
+
+**3. Gizlenmiş AI tespiti.** Bunu kendim eğittim, hikâyesi aşağıda.
+
+**4. Stilometri.** Cümle uzunlukları, kalıp ifadeler, noktalama alışkanlıkları.
+Tek başına zayıf ama kararın *neden* böyle olduğunu açıklayabilen tek katman bu.
+
+Dördünün sonucu, ölçüm verisinden öğrenilen ağırlıklarla birleştiriliyor.
+Ağırlıkları elle yazmadım; bütün kombinasyonları deneyip en iyisini seçen bir
+kod var.
+
+## Doğruluk
+
+Bu rakamlar kendi ölçümümden geliyor, `eval/report.md` içinde detayı var.
+
+Eşiği, insan metinlerinin en fazla %5'inin yanlış işaretleneceği noktaya
+ayarladım.
+
+| Dil | AUC | Yakalama |
 |---|---|---|
-| **① Binoculars**<br/><sub>ICML 2024</sub> | İki dil modeli (Qwen2.5-1.5B temel + instruct) arasındaki perplexity oranı | **Eğitim gerektirmez** — daha önce görülmemiş modellere genelleşir. Sınıflandırıcıların en zayıf noktası budur. |
-| **② Sınıflandırıcı** | `desklib/ai-text-detector-v1.01` (DeBERTa-v3-large, MIT, RAID lideri) | Bilinen üreticilerde en yüksek doğruluk |
-| **③ Gizlenmiş AI** | Aynı modelin gömüleri üzerine eğittiğimiz küçük sınıflandırıcı | "İnsan gibi yaz" denilerek üretilmiş metinler için — mevcut katmanların tamamen kör kaldığı sınıf |
-| **④ Stilometri** | Cümle ritmi, kalıp ifadeler, kelime çeşitliliği, noktalama (9 sinyal) | Tek başına zayıf, ama kararı **açıklayan** tek katman |
+| Türkçe | 0,911 | %48 |
+| İngilizce | 0,987 | %95 |
 
-> **Ağırlıklar elle atanmaz.** Tüm sinyal kombinasyonları (tek, ikili, üçlü,
-> dörtlü) ölçüm setinde denenir ve en iyisi veriden seçilir.
+İngilizce için ilk başta %100 çıkmıştı ama o rakam sahteydi — kullandığım model
+RAID veri setiyle eğitilmiş, ben de test setimi RAID'den almışım. Model kendi
+sınavını kendi hazırlamış gibi olmuş. Başka bir veri setiyle test edince %95
+çıktı, gerçek olan bu.
 
----
+Türkçe'deki %48 düşük görünüyor, gerçekten de düşük. Sebebi elimde sadece 74
+Türkçe yapay zekâ örneği olması. Daha fazla örnek toplamak gerekiyor.
 
-## Ölçülmüş doğruluk
+Metin bozularak tespitin atlatılmaya çalışıldığı durumlar:
 
-Yanlış pozitif hedefi **%5**'te kalibre edilmiştir.
-
-| Dil | Kullanılan sinyaller | ROC-AUC | Yakalama | Örneklem |
-|---|---|---:|---:|---:|
-| 🇹🇷 Türkçe | Binoculars + stilometri | 0,911 | %48,1 | 266 |
-| 🇬🇧 İngilizce | Binoculars + sınıflandırıcı + gizlenmiş | 0,999\* | %100\* | 388 |
-
-<sub>\* Bu rakam şişkindir — gizlenmiş katman ölçüm setindeki örneklerin bir
-kısmı üzerinde eğitildi. Bağımsız doğrulama: RAID dışı veride AUC **0,987**,
-yakalama **%95,0**. Ayrıntı için `eval/report.md`.</sub>
-
-### Saldırı dayanıklılığı
-
-Metin kasıtlı olarak bozulduğunda:
-
-| Saldırı türü | Yakalama |
-|---|---:|
-| Homoglif <sub>(Latin harflerinin yerine Kiril/Yunan eşleri)</sub> | **%100** |
-| Boşluk enjeksiyonu | **%100** |
+| Yöntem | Yakalama |
+|---|---|
+| Homoglif (harflerin benzerleriyle değiştirilmesi) | %100 |
+| Boşluk karakteri ekleme | %100 |
 | Parafraz | %65 |
-| Eşanlamlı değiştirme | %40 |
+| Eşanlamlı değiştirme | %60 |
 
-<sub>Homoglif ve boşluk saldırıları normalizasyon katmanı eklenmeden önce
-sırasıyla %3,3 ve %93,3 idi.</sub>
-
----
+Homoglif ilk denemede %3 yakalıyordu. Latin harflerini görüntüsü aynı olan
+Kiril harfleriyle değiştirince (`a` yerine Kiril `а` gibi) model metni tamamen
+başka bir şey sanıyor. Analiz öncesi bir temizleme adımı ekleyince %100'e çıktı.
 
 ## Kurulum
 
 ```bash
-git clone https://github.com/<kullanıcı>/aifinder.git
-cd aifinder
+git clone https://github.com/MBerkeArici/AIFinder.git
+cd AIFinder
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
 
-İlk çalıştırmada modeller Hugging Face'ten indirilir (~5 GB, tek seferlik).
-
-### Çalıştırma
+İlk çalıştırmada modeller iniyor, yaklaşık 5 GB. Bir kere iniyor.
 
 ```bash
 .venv/bin/python app.py
 ```
 
-Ardından **http://127.0.0.1:9317** adresini açın.
+Sonra http://127.0.0.1:9317 adresini aç. Mac'te `AIFinder Başlat.command`
+dosyasına çift tıklamak da olur.
 
-macOS'ta `AIFinder Başlat.command` dosyasına çift tıklamak da yeterlidir.
+16 GB RAM öneriyorum. Bende 16 GB var ve sınırda gidiyor — modeller yaklaşık
+7 GB yer kaplıyor. Bir analiz, modeller yüklüyken 7-15 saniye sürüyor.
 
-### Gereksinimler
+## Gizlenmiş AI meselesi
 
-| | |
-|---|---|
-| Python | 3.11+ |
-| RAM | 16 GB önerilir |
-| Disk | ~6 GB (modeller dahil) |
-| Hızlandırma | Apple Silicon (MPS) veya CUDA — CPU'da da çalışır, yavaştır |
+Projenin en öğretici kısmı burası.
 
----
+Araç bir süre iyi çalışıyordu. Sonra bir metin denedim, araç "insan yazımı"
+dedi, halbuki yapay zekâ yazmıştı. Klasik AI metni değildi — kısa cümleler,
+samimi ton, gündelik detaylar. Yani birinin "insan gibi yaz" diyerek yazdırdığı
+türden.
 
-## Nasıl ölçtük
+Önce eşiği düşürmeyi denedim. Olmadı. Eşiği 0,78'den 0,30'a kadar indirdim,
+metin hâlâ yakalanmıyordu, sadece masum metinler işaretlenmeye başladı. Sonra
+fark ettim ki sorun eşikte değil — o metinde ayırt edilecek bir sinyal yoktu.
+Üstelik iki katman (Binoculars ve stilometri) bu tür metinlerde şansın *altında*
+performans gösteriyordu. Yani bu metinleri insan metninden daha "insan" sayıyorlardı.
 
-Bir modelin "0,73" demesi tek başına hiçbir şey ifade etmez. Projenin en çok
-emek alan kısmı, o sayının **ne anlama geldiğini** ölçmekti.
+Çözüm modelde değil veride çıktı. İki şey yaptım:
 
-### Eşik neden doğruluğa göre seçilmedi
+Birincisi, buna benzer 58 metin yazdım. Ama insan tarafında da eşleşen veri
+lazımdı — çünkü benim örneklerim samimi/kişisel üsluptayken insan verim sadece
+haber ve ansiklopedi metniydi. Öyle eğitsem model "yapay zekâ"yı değil "kişisel
+üslup"u öğrenirdi. Reddit'ten 160 tane birinci şahıs anlatı topladım.
 
-Eşik, doğruluğu en yükseğe çıkarmak için değil, **yanlış suçlamayı en aza
-indirmek** için seçilir: insan metinlerinin en fazla %5'inin aşabildiği nokta.
+İkincisi, 58 örnek az olduğu için üç açık veri setinden 3.600 metin çekip
+mevcut modelle taradım ve **modelin yanıldığı** örnekleri ayıkladım. 64 tane
+kaçırılan yapay zekâ metni, 124 tane yanlışlıkla işaretlenen insan metni çıktı.
+Bunlar tam olarak öğrenilmesi gereken örneklerdi.
 
-Bir yapay zekâ metnini kaçırmak ile bir insanı haksız yere suçlamak eşit
-maliyetli hatalar değildir.
+Sonra tam fine-tune yerine daha güvenli bir yol seçtim: mevcut modelin
+gömülerini (embedding) çıkarıp üstüne küçük bir sınıflandırıcı eğittim. 58-200
+örnekle 430 milyon parametreli bir modeli fine-tune etsem büyük ihtimalle
+ezberlerdi.
 
-### Veri seti
+Sonuç: eğitimde hiç kullanılmamış 296 metinlik test setinde AUC 0,997. Ve asıl
+önemlisi, başta kaçan o metin artık yakalanıyor.
 
-| | Yapay zekâ | İnsan |
-|---|---:|---:|
-| 🇬🇧 İngilizce | 306 | 410 |
-| 🇹🇷 Türkçe | 74 | 250 |
+Bu katman şu an sadece İngilizce çalışıyor. Türkçesi için aynı veriyi toplamak
+gerekiyor.
 
-**Kaynaklar** — RAID ölçütü (11 üretici, 11 saldırı türü), Reddit gayriresmî
-anlatılar, ttc4900 Türkçe haber derlemi, Türkçe Vikipedi, ürün yorumları ve
-elle yazılmış "gizlenmiş" örnekler.
+## Yaptığım hatalar
 
-> **Kritik tasarım kararı:** İnsan tarafında **üslup eşleşmesi** şarttır.
-> Gizlenmiş yapay zekâ örnekleri kişisel/denemesel üsluptayken insan tarafı
-> yalnızca haber ve ansiklopedi metni olursa, model "yapay zekâ"yı değil
-> "kişisel üslubu" öğrenir.
+Bunları yazıyorum çünkü hepsi "kod çalışıyor ama sonuç yanlış" türündendi ve
+fark etmesi zor oldu.
 
-### Yeniden üretmek için
+**Eşik sıfıra yuvarlanıyordu.** Kalibrasyon mükemmel ayrım bulduğunda eşik
+`0.0` olarak kaydediliyordu. `p >= 0` her zaman doğru olduğu için araç her
+metni yapay zekâ işaretliyordu. Kaydetme hassasiyeti meselesiymiş.
 
-```bash
-.venv/bin/python eval/build_human.py     # insan metinleri
-.venv/bin/python eval/build_ai_en.py     # RAID'den İngilizce yapay zekâ metni
-.venv/bin/python eval/build_ai_tr.py     # Türkçe yapay zekâ metinleri
-.venv/bin/python eval/run_eval.py        # ölçüm  → eval/report.md
-.venv/bin/python eval/calibrate.py       # kalibrasyon → engine/calibration.json
+**Isotonic kalibrasyon kararı eziyordu.** Ölçüm setinde insan metinleri 0,004,
+yapay zekâ metinleri 0,95 alıyordu — arada hiç örnek yoktu. Isotonic bu veriye
+uydurulunca bir merdiven fonksiyonuna dönüşüp 0,93'ün altındaki her şeyi sıfıra
+eziyordu. Gerçek metinler tam o boşluğa düşüyor. Test metnim 0,69 almıştı, yani
+sınıflandırıcı doğru çalışıyordu, sonucu kalibrasyon bozuyordu.
+
+**Pencere boyutu kalibrasyonla uyumsuzdu.** 140 kelimelik metinlerle kalibre
+edip 300 kelimelik pencereler besliyordum. Yarısı yapay zekâ olan bir belge bu
+yüzden %0 veriyordu.
+
+**Çoklu karşılaştırma sorunu.** Bunu en son fark ettim. Ölçümde yanlış pozitif
+%0,8 görünüyordu ama gerçek belgelerde %10 çıkıyordu. Sebep: ölçümü tek parça
+metinlerle yapıyordum, gerçek belgeler ise 10-15 parçaya bölünüyor. Her parça
+ayrı bir yanlış pozitif şansı demek. Parça başına %5 risk, 10 parçada
+1-(0,95)^10 = %40 ediyor. Eşiği parça sayısına göre sıkılaştırarak düzelttim.
+
+**Güven hesabı yanlıştı.** Kullanıcı sordu, bakınca gördüm. Olasılığı 0,00 olan
+bir metin — yani mümkün olan en net insan kararı — %16 güven gösteriyordu.
+Formül her iki yönü de aynı paydaya bölüyordu, oysa insan tarafında
+ulaşılabilecek en büyük mesafe eşiğin kendisi. Asimetrik hale getirince aynı
+metin %81 oldu.
+
+**Üç model aynı anda bellekteydi.** 16 GB'lık makinede sistem takasa düşüp
+kullanılamaz hale geliyordu. Modelleri sırayla yükleyip boşaltacak şekilde
+değiştirdim, tepe kullanım 9 GB'dan 6,5 GB'a indi.
+
+## Bilmesi gerekenler
+
+- Gizlenmiş metin hâlâ zor. İngilizce için bir çözüm var ama Türkçe için yok.
+- Türkçe rakamları 74 örneğe dayanıyor, bu az. Güvenilir olması için 200+ lazım.
+- Parafraz araçlarından geçmiş metinlerde yakalama %65'e düşüyor.
+- 85 kelimeden kısa metinlerde karar vermiyor. Hiçbir yöntem o uzunlukta çalışmıyor.
+- Resmî, akademik üslupla yazan insanlar yanlış işaretlenme riski taşıyor.
+- Araç hiçbir zaman "insan yazımı" demiyor, "yapay zekâ izi bulunamadı" diyor.
+  İz bulamamak iz olmadığı anlamına gelmiyor.
+
+## Dosyalar
+
+```
+app.py              sunucu
+analyze.py          ana akış
+extract.py          PDF/Word okuma
+detector.py         stilometri
+engine/
+  binoculars.py     1. katman
+  classifier.py     2. katman
+  hidden.py         3. katman
+  normalize.py      homoglif temizliği
+  segment.py        parçalara bölme
+  ensemble.py       birleştirme
+  aggregate.py      yüzde hesabı
+eval/               ölçüm ve eğitim betikleri
+static/index.html   arayüz
 ```
 
----
-
-## Geliştirme sırasında bulunan hatalar
-
-Hepsi "kod çalışıyor ama sonuç yanlış" türünden. Belgeleme amacıyla burada.
-
-| Hata | Etkisi | Kök neden |
-|---|---|---|
-| **Eşik sıfıra yuvarlanıyordu** | Araç **her metni** yapay zekâ işaretlerdi | Mükemmel ayrımda eşik `0.0` kaydediliyor, `p >= 0` her zaman doğru oluyordu |
-| **Isotonic kalibrasyon kararı eziyordu** | Açıkça yapay zekâ olan metin "insan" çıkıyordu | Ölçüm setinde ara değer olmadığı için eğri adım fonksiyonuna dönüşmüştü; gerçek metinler tam o boşluğa düşüyor |
-| **Pencere boyutu kalibrasyonla uyumsuzdu** | Yarısı yapay zekâ olan belge %0 veriyordu | 140 kelimeyle kalibre edilip 300 kelimelik pencere besleniyordu |
-| **Homoglif saldırısı tespiti çökertiyordu** | %3,3 yakalama | Latin harfleri görsel eşleriyle değişince tokenizer metni tanımıyor |
-| **Ölçüm seti gerçeği yansıtmıyordu** | "%100 doğruluk" sahteydi | RAID'deki 81 yapay zekâ metninin hiçbiri zor değildi (medyan p = 1,000) |
-| **Üç model aynı anda bellekteydi** | 16 GB makinede sistem takasa düşüyordu | Faz faz yükleme ile tepe bellek ~9 GB'dan ~6,5 GB'a indirildi |
-
----
-
-## Bilinen sınırlar
-
-- **Gizlenmiş metin.** Yapay zekâya "insan gibi yaz" denildiğinde üretilen
-  metin, ölçülebilir imzasının çoğunu kaybeder. Bu sınıf için ③ katmanı
-  eklendi, ancak yalnızca **İngilizce** çalışıyor.
-- **Türkçe istatistiksel güç.** 74 Türkçe yapay zekâ örneği ile ölçülen
-  rakamlar gürültülüdür; güvenilirlik için 200+ örnek gerekir.
-- **Parafraz araçları** doğruluğu belirgin düşürür (%65).
-- **Kısa metin** güvenilmezdir; 85 kelimenin altında karar verilmez.
-- **Resmî/akademik üslupla yazan insanlar** yanlış pozitif riski taşır.
-- Türkçe yapay zekâ örnekleri tek bir model ailesinden üretildi.
-
----
-
-## Dizin yapısı
-
-```
-aifinder/
-├── app.py                  Flask sunucusu
-├── analyze.py              ana akış: metin → pencereler → dört katman → yüzde
-├── extract.py              PDF/DOCX/TXT okuma + belge üstveri analizi
-├── detector.py             ④ stilometri
-├── engine/
-│   ├── binoculars.py       ① Binoculars
-│   ├── classifier.py       ② eğitilmiş sınıflandırıcı
-│   ├── hidden.py           ③ gizlenmiş yapay zekâ tespiti
-│   ├── normalize.py        saldırı normalizasyonu
-│   ├── segment.py          pencereleme
-│   ├── ensemble.py         kalibrasyonu uygular
-│   ├── aggregate.py        pencerelerden belge yüzdesi
-│   └── calibration.json    öğrenilmiş ağırlıklar + eşik
-├── eval/                   ölçüm, kalibrasyon, veri toplama
-│   └── report.md           ← doğruluk iddialarının tek kaynağı
-├── static/index.html       arayüz
-├── API.md                  arayüz ↔ sunucu sözleşmesi
-└── UI-METINLERI.md         arayüzde kullanılacak açıklama metinleri
-```
-
----
+Ölçüm verisi depoda yok — üçüncü taraf kaynaklardan geliyor ve dağıtmak doğru
+olmaz. `eval/build_*.py` betikleriyle yeniden indirilebiliyor.
 
 ## Kaynaklar
 
-- **Binoculars** — Hans ve ark., *Spotting LLMs With Binoculars: Zero-Shot
-  Detection of Machine-Generated Text*, ICML 2024 · [arXiv:2401.12070](https://arxiv.org/abs/2401.12070)
-- **RAID ölçütü** — Dugan ve ark., *RAID: A Shared Benchmark for Robust
-  Evaluation of Machine-Generated Text Detectors*, ACL 2024 · [arXiv:2405.07940](https://arxiv.org/abs/2405.07940)
-- **Yanlış pozitif yanlılığı** — Liang ve ark., *GPT detectors are biased
-  against non-native English writers*, **Patterns** 2023
-- **Sınıflandırıcı** — [desklib/ai-text-detector-v1.01](https://huggingface.co/desklib/ai-text-detector-v1.01) (MIT)
-- **Dil modelleri** — [Qwen2.5-1.5B](https://huggingface.co/Qwen/Qwen2.5-1.5B) (Apache-2.0)
+- Binoculars — [arXiv:2401.12070](https://arxiv.org/abs/2401.12070), ICML 2024
+- RAID veri seti — [arXiv:2405.07940](https://arxiv.org/abs/2405.07940), ACL 2024
+- Liang ve ark., "GPT detectors are biased against non-native English writers",
+  Patterns, 2023
+- [desklib/ai-text-detector-v1.01](https://huggingface.co/desklib/ai-text-detector-v1.01)
+- [Qwen2.5-1.5B](https://huggingface.co/Qwen/Qwen2.5-1.5B)
 
----
-
-<div align="center">
-<sub>Bu araç bir olasılık tahmin eder, hüküm vermez.</sub>
-</div>
+MIT lisansı.
