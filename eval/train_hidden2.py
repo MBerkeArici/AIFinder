@@ -92,6 +92,25 @@ def main():
     # pozitif cikti. human_en_formal_train.jsonl olcum setiyle (human_en.jsonl)
     # kesismeyecek sekilde toplanir — bkz. build_human.formal_en_train.
     formal = load_jsonl("human_en_formal_train.jsonl", limit=130)
+
+    # Saldiriya karsi egitim — DENENDI, GERI ALINDI. limit=0 birakildi ki
+    # ayni fikir yeniden denenecekse olcum sonucu bilinsin.
+    #
+    # Fikir: esanlamli degistirme saldirisinda yakalama %60'a dusuyordu; kafa
+    # bu tur bozulmalari hic gormeden egitilmisti. Bozulmus varyantlari
+    # (eval/attack_en.py) egitime kattik.
+    #
+    # Olculen sonuc:
+    #     esanlamli   %60 -> %70   (hedeflenen kazanc geldi)
+    #     parafraz    %75 -> %60   (daha gercekci saldiri bozuldu)
+    #     toplam      %83.3 -> %82.1
+    #
+    # Yani model mekanik bozulmalara karsi saglamlasirken anlam koruyarak
+    # yeniden yazmaya karsi zayifladi. Mekanik saldirilar parafrazi temsil
+    # etmedigi icin kafa yanlis seye odaklandi. Parafraz dayanikliligi
+    # istenirse yol, mekanik bozulma degil gercek parafraz ornekleri
+    # toplamaktir.
+    attacked = load_jsonl("attacked_train_en.jsonl", limit=0)
     if not formal:
         print("UYARI: human_en_formal_train.jsonl yok — akademik insan metni")
         print("       olmadan egitilen kafa ozet/makale metnini AI sanabilir.")
@@ -108,8 +127,10 @@ def main():
         r["kind"] = "gayriresmi_insan"; r["label"] = 0
     for r in formal:
         r["kind"] = "akademik_insan"; r["label"] = 0
+    for r in attacked:
+        r["kind"] = "saldirili_ai" if r.get("label") == 1 else "saldirili_insan"
 
-    tr_rows = train + handwritten + informal + formal
+    tr_rows = train + handwritten + informal + formal + attacked
     te_rows = test
 
     from collections import Counter
