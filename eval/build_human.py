@@ -66,6 +66,52 @@ def raid_human(n=200):
     return rows
 
 
+def formal_en_train(n=130):
+    """Gizlenmis kafanin EGITIMI icin akademik Ingilizce insan metni.
+
+    NEDEN GEREKLI: Turkce tarafta ogrenilen ders Ingilizce'de uygulanmamisti.
+    train_hidden2.py'nin insan tarafi Reddit (gayriresmi) + madencilik havuzu;
+    akademik metin yok. Canli tarama sonucu: Reddit metinlerinde yanlis pozitif
+    0/25, bilimsel makale ozetlerinde 2/25. Model resmi ve yogun akademik
+    yazimi yapay zeka sanma egiliminde, cunku egitimde o usluptaki insan
+    metnini yeterince gormemis.
+
+    CAKISMA YASAGI: olcum seti data/human_en.jsonl'dir; buradan donen metinler
+    onunla kesismemelidir.
+    """
+    from datasets import load_dataset
+
+    used = set()
+    ep = os.path.join(DATA, "human_en.jsonl")
+    if os.path.exists(ep):
+        with open(ep, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    used.add(json.loads(line)["text"][:80])
+                except Exception:
+                    pass
+    print("Egitim icin akademik Ingilizce metin cekiliyor (olcumdeki %d haric)..."
+          % len(used))
+
+    ds = load_dataset("liamdugan/raid", "raid", split="train", streaming=True)
+    rows = []
+    for i, r in enumerate(ds):
+        if r.get("model") != "human" or (r.get("attack") or "none") != "none":
+            continue
+        t = clip((r.get("generation") or "").strip())
+        if not t or t[:80] in used:
+            continue
+        used.add(t[:80])
+        rows.append({"text": t, "label": 0, "lang": "en",
+                     "source": "raid-egitim/" + str(r.get("domain", "?")),
+                     "kind": "resmi_insan"})
+        if len(rows) >= n:
+            break
+        if i > 600000:
+            break
+    return rows
+
+
 # ------------------------------------------------------------ TR: ttc4900 ---
 
 def ttc4900(n=140):
@@ -293,6 +339,8 @@ if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("all", "en"):
         write(os.path.join(DATA, "human_en.jsonl"), raid_human(200))
+    if what in ("all", "en", "formal-en"):
+        write(os.path.join(DATA, "human_en_formal_train.jsonl"), formal_en_train(130))
     if what in ("all", "tr"):
         tr = ttc4900(120) + wikipedia_tr_hf(90) + reviews_tr(40)
         random.shuffle(tr)

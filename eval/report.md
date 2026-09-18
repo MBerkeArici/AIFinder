@@ -75,22 +75,22 @@ Aynı eşikte yakalama oranı: **97.4%** (196 örnek)
 | binoculars | 0.566 | 0.0% |
 | siniflandirici | 0.799 | 58.3% |
 | stilometri | 0.618 | 7.2% |
-| gizlenmis | 0.994 | 93.5% |
-| **birleşik (ensemble)** | **0.995** | **80.6%** |
+| gizlenmis | 0.998 | 95.0% |
+| **birleşik (ensemble)** | **1.000** | **98.6%** |
 
-Öğrenilen ağırlıklar: `{'binoculars': -0.823, 'siniflandirici': 1.376, 'stilometri': -0.287, 'gizlenmis': 4.015}`  ·  eşik: `0.9564`
+Öğrenilen ağırlıklar: `{'binoculars': -0.708, 'siniflandirici': 1.698, 'stilometri': 0.342, 'gizlenmis': 3.992}`  ·  eşik: `0.6436`
 
 
 ### Saldırı altında (parafraz / eşanlamlı / homoglif)
 
-Aynı eşikte yakalama oranı: **83.3%** (78 örnek)
+Aynı eşikte yakalama oranı: **80.8%** (78 örnek)
 
 
 | Saldırı türü | Yakalama |
 |---|---:|
 | homoglyph | 100.0% (19) |
-| paraphrase | 75.0% (20) |
-| synonym | 60.0% (20) |
+| paraphrase | 60.0% (20) |
+| synonym | 65.0% (20) |
 | whitespace | 100.0% (19) |
 
 ### İnsan metinlerinde yanlış pozitif (kaynak bazında)

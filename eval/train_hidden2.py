@@ -85,6 +85,18 @@ def main():
     handwritten = load_jsonl("ai_en_hidden.jsonl")
     informal = load_jsonl("human_en_informal.jsonl", limit=140)
 
+    # Akademik insan metni — Turkce tarafta ogrenilen dersin Ingilizce'ye
+    # uygulanmasi. Insan tarafi yalnizca Reddit + madencilik havuzu oldugunda
+    # model resmi/yogun akademik yazimi yapay zeka sanma egiliminde oluyor:
+    # canli taramada Reddit'te 0/25, bilimsel makale ozetlerinde 2/25 yanlis
+    # pozitif cikti. human_en_formal_train.jsonl olcum setiyle (human_en.jsonl)
+    # kesismeyecek sekilde toplanir — bkz. build_human.formal_en_train.
+    formal = load_jsonl("human_en_formal_train.jsonl", limit=130)
+    if not formal:
+        print("UYARI: human_en_formal_train.jsonl yok — akademik insan metni")
+        print("       olmadan egitilen kafa ozet/makale metnini AI sanabilir.")
+        print("       Once: .venv/bin/python eval/build_human.py formal-en")
+
     if not train:
         print("HATA: mined_train.jsonl yok — once eval/mine_hard.py calistirin")
         return
@@ -94,8 +106,10 @@ def main():
         r["kind"] = "elle_zor_ai"; r["label"] = 1
     for r in informal:
         r["kind"] = "gayriresmi_insan"; r["label"] = 0
+    for r in formal:
+        r["kind"] = "akademik_insan"; r["label"] = 0
 
-    tr_rows = train + handwritten + informal
+    tr_rows = train + handwritten + informal + formal
     te_rows = test
 
     from collections import Counter
